@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 
 /**
  * k8s操作工具类
- * @author ctdi
+ * @author yangla
  * @since 2025/5/28
  */
 @Slf4j
@@ -52,9 +53,12 @@ public class K8sUtil {
 
     private static String findKubeConfig() {
         // 1. 检查classpath下的config文件
-        String classpathConfig = ResourceUtil.getResource("kubeConfig").getPath();
-        if (FileUtil.exist(classpathConfig)) {
-            return classpathConfig;
+        URL kubeConfig = ResourceUtil.getResource("kubeConfig");
+        if (kubeConfig != null) {
+            String classpathConfig = kubeConfig.getPath();
+            if (FileUtil.exist(classpathConfig)) {
+                return classpathConfig;
+            }
         }
 
         // 2. 检查用户目录下的~/.kube/config
@@ -94,7 +98,7 @@ public class K8sUtil {
         try {
             String namespace = switch (op) {
                 case ModelConstants.OP_EVAL, ModelConstants.OP_TRAIN -> ModelConstants.NS_TRAIN;
-                case ModelConstants.OP_INFER -> ModelConstants.NS_INFERENCE;
+                case ModelConstants.OP_INFER, ModelConstants.OP_INFER_EVAL -> ModelConstants.NS_INFERENCE;
                 default -> throw new IllegalArgumentException("Unsupported operation: " + op);
             };
 
@@ -204,9 +208,35 @@ public class K8sUtil {
         return client.nodes().list().getItems();
     }
 
+    public Node getNodeByName(String nodeName) {
+        return client.nodes().withName(nodeName).get();
+    }
+
     public Map<String, String> getNodeLabels(String nodeName) {
         Node node = client.nodes().withName(nodeName).get();
         return node.getMetadata().getLabels();
+    }
+    public List<Node> getNodesByLabels(Map<String, String> labels) {
+        return client.nodes()
+                .withLabels(labels)
+                .list()
+                .getItems().stream().toList();
+    }
+
+    public List<Node> getNodesBySelector(String labelSelector) {
+        return client.nodes()
+                .withLabelSelector(labelSelector)
+                .list()
+                .getItems().stream().toList();
+    }
+
+    public List<Node> getUnschedulableNodes() {
+        return client.nodes().list().getItems().stream()
+                .filter(node -> Boolean.TRUE.equals(
+                        Optional.ofNullable(node.getSpec())
+                                .map(NodeSpec::getUnschedulable)
+                                .orElse(false)
+                )).collect(Collectors.toList());
     }
 
     public Node updateNodeLabels(String nodeName, Map<String, String> labelMap) {
@@ -374,7 +404,7 @@ public class K8sUtil {
                 .build();
         GenericKubernetesResource gkr = Serialization.unmarshal(body, GenericKubernetesResource.class);
         return client.genericKubernetesResources(crdContext)
-                .inNamespace(namespace).resource(gkr).update();
+                .inNamespace(namespace).resource(gkr).patch();
     }
 
     public GenericKubernetesResource createVcCrd(String namespace, String body) {

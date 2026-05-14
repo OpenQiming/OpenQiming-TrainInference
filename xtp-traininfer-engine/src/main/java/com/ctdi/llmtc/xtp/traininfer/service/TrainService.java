@@ -4,7 +4,7 @@ import com.ctdi.llmtc.xtp.traininfer.beans.req.TrainReq;
 import com.ctdi.llmtc.xtp.traininfer.util.OperateResult;
 
 /**
- * @author ctdi
+ * @author yangla
  * @since 2025/6/5
  */
 public interface TrainService {
@@ -13,7 +13,7 @@ public interface TrainService {
 
     OperateResult<String> delTrain(String taskId);
 
-    OperateResult<String> delInfer(String taskId);
+    OperateResult<String> delInfer(String taskId, String op);
 
     OperateResult<String> eval(TrainReq trainReq);
 
@@ -22,5 +22,7 @@ public interface TrainService {
     String inferStatus(String taskId);
 
     OperateResult<String> intentSync(String taskId);
+
+    OperateResult<String> intentScpSync(String taskId);
 
 }

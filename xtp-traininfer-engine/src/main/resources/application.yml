@@ -25,6 +25,29 @@ logging:
     console: '%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(%-25.-25method{24}:%4.4line){green} %clr(:){cyan} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
     file: '%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} %-25.-25method{24}:%4.4line : %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
 
+cluster:
+  zone: GZ # GZ,CH,QD,LOCAL(本地化部署)
+  deploy-mode: k8s # k8s,docker
+  # 单机算力使用docker-compose部署,主机配置信息如下
+  # 改配置只在cluster.deploy-mode = docker情况下生效
+  docker-host:
+    ip: x.x.x.x
+    port: 22
+    username: root
+    password: yourPassword
+
+report:
+  base-url: http://x.x.x.x:port/intf-restful-service-test
+  res-path: /resource/report
+  res-cron: 0/30 * * * * ?
+  res-enabled: false
+
+  callback-train-path: /train/trainCallbackInterface
+  callback-eval-path: /trainEval/evalResult
+  callback-cron: 0/30 * * * * ?
+  callback-enabled: false
+  callback-minicpm-model-url: http://x.x.x.x:port/api/generate
+
 model-path:
   qwen:
     aarch64-base-dir: /mnt/hpfs
@@ -33,4 +56,16 @@ model-path:
     other-dataset-dir: /dataset/data
     model-input-dir: /cyc_qwen2_workspace/qwen2_folder_modified/codes/LLaMA-Factory
     model-output-dir: /cyc_qwen2_workspace/saves/output_dir
+    template-dir: /mnt/hpfs/template # 模板配置文件根路径,目前k8s模板还是在共享目录,后期计划放在这里
     intent-sync-dir: /data/nfs/lora_intent
+
+intent:
+  scp:
+    host: 10.0.0.12
+    port: 22
+    username: deploy
+    # choose one of the following:
+    password: yourPassword
+    # private-key-path: /home/deploy/.ssh/id_rsa
+    remote-base-dir: /data/saves/output_dir
+    clean-before: true

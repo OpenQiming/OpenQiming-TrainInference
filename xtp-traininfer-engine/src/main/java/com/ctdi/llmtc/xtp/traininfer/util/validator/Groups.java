@@ -26,4 +26,16 @@ public interface Groups {
     interface INFERENCE {
     }
 
+    /**
+     * 资源申请
+     */
+    interface RES_SUBMIT {
+    }
+
+    /**
+     * 资源校验
+     */
+    interface RES_CHECK {
+    }
+
 }

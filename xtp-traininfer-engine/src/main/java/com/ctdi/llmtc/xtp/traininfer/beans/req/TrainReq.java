@@ -4,11 +4,11 @@ import com.ctdi.llmtc.xtp.traininfer.util.validator.Groups;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * @author ctdi
+ * @author yangla
  * @since 2025/6/6
  */
 @Data
@@ -87,4 +87,12 @@ public class TrainReq implements Serializable {
     private Boolean quantization;
 
     private String op;
+
+    @JsonProperty("cluster_zone")
+    @NotNull(message = "集群区域码不能为空！", groups = {Groups.TRAIN.class, Groups.DPO.class, Groups.EVAL.class, Groups.INFERENCE.class})
+    private String clusterZone;
+
+    @JsonProperty("project_space_id")
+    @NotNull(message = "项目空间ID不能为空！", groups = {Groups.TRAIN.class, Groups.DPO.class, Groups.EVAL.class, Groups.INFERENCE.class})
+    private String projectSpaceId;
 }

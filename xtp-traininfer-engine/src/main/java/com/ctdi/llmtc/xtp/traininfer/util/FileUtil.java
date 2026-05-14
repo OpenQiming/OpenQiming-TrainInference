@@ -1,13 +1,15 @@
 package com.ctdi.llmtc.xtp.traininfer.util;
 
+import com.ctdi.llmtc.xtp.traininfer.constant.ModelConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
- * @author ctdi
+ * @author yangla
  * @since 2025/6/12
  */
 @Slf4j
@@ -57,10 +59,14 @@ public class FileUtil {
         }
     }
 
-    public static void delInferFile(ModelPathUtil pathUtil, String taskId) {
+    public static void delInferFile(String op, ModelPathUtil pathUtil, String taskId) {
         try {
             // 删除训练YAML文件等
             String inferYmlPath = pathUtil.getInferenceDirPath(taskId);
+            if (ModelConstants.OP_INFER_EVAL.equals(op)) {
+                inferYmlPath = pathUtil.getInferenceEvalDirPath(taskId);
+            }
+
             if (exist(inferYmlPath)) {
                 rmTree(inferYmlPath);
             }
@@ -105,6 +111,10 @@ public class FileUtil {
 
     public static boolean exist(String filePath) {
         return cn.hutool.core.io.FileUtil.exist(filePath);
+    }
+
+    public static List<String> readLines(String filePath) {
+        return cn.hutool.core.io.FileUtil.readLines(filePath, StandardCharsets.UTF_8);
     }
 
     public static File mkdir(String filePath) {

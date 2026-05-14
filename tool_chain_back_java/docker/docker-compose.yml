@@ -1,9 +1,0 @@
-version : '3.8'
-services:
-  rdt-demo:
-    container_name: llm-demo
-    build:
-      context: cnos/modules/demo
-      dockerfile: dockerfile
-    ports:
-      - "2022:2022"

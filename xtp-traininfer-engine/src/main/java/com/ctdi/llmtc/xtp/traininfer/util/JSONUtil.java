@@ -3,6 +3,7 @@ package com.ctdi.llmtc.xtp.traininfer.util;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author ctdi
+ * @author yangla
  * @since 2025/6/10
  */
 public class JSONUtil {
@@ -116,6 +117,10 @@ public class JSONUtil {
         }
     }
 
+    public static Map<String, String> readValue(String object) throws JsonProcessingException {
+        return mapper.readValue(object, Map.class);
+    }
+
     public static void main(String[] args) throws IOException {
         //List<Map<String, String>> list = new ArrayList<>();
         //Map<String, String> map1 = new HashMap<>();
@@ -128,11 +133,11 @@ public class JSONUtil {
         //map2.put("ddddd", "4444");
         //list.add(map2);
         //
-        //String dd = "C:\Users\ctdi\Desktop\1\\3.json";
+        //String dd = "C:\Users\yangla\Desktop\1\\3.json";
         //writeJsonToFile(list, dd);
 
-        String path = "C:\\Users\\ctdi\\Desktop\\1\\3.jsonl";
-        //String path = "C:\Users\ctdi\Desktop\1\\2.json";
+        String path = "C:\\Users\\yangla\\Desktop\\1\\3.jsonl";
+        //String path = "C:\Users\yangla\Desktop\1\\2.json";
 
         // 示例1：读取为 List<Map<String, Object>>
         List<Map<String, Object>> listData = readJsonFile(path, new TypeReference<>() {});

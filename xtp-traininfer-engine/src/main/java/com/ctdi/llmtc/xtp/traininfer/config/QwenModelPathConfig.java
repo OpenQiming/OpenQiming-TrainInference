@@ -27,6 +27,8 @@ public class QwenModelPathConfig {
 
     private String modelInputDir;
 
+    private String templateDir;
+
     private String intentSyncDir;
 
 }

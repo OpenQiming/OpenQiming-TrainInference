@@ -25,8 +25,10 @@ public interface ModelPathUtil {
 
     //    dpo_dir_path =  lambda task_id:f'{base_dir}/cyc_qwen2_workspace/qwen2_folder_modified/codes/LLaMA-Factory/examples/auto_generate_dpo_yaml/task/{task_id}'
     public String getDpoDirPath(String taskId);
-    //    inference_dir_path =  lambda task_id:f'{base_dir}/cyc_qwen2_workspace/qwen2_folder_modified/codes/LLaMA-Factory/examples/auto_generate_inference_y
+    //    inference_dir_path =  lambda task_id:f'{base_dir}/cyc_qwen2_workspace/qwen2_folder_modified/codes/LLaMA-Factory/examples/auto_generate_inference_yaml/task/{task_id}'
     public String getInferenceDirPath(String taskId);
+    //    inference_eval_dir_path =  lambda task_id:f'{base_dir}/cyc_qwen2_workspace/qwen2_folder_modified/codes/LLaMA-Factory/examples/auto_generate_inference_eval_yaml/task/{task_id}'
+    public String getInferenceEvalDirPath(String taskId);
     //    eval_dir_path =  lambda task_id:f'{base_dir}/cyc_qwen2_workspace/qwen2_folder_modified/codes/LLaMA-Factory/examples/auto_generate_eval_yaml/task/{task_id}'
     public String getEvalDirPath(String taskId);
     //    quant_dir_path = lambda task_id:f'{base_dir}/cyc_qwen2_workspace/qwen2_folder_modified/codes/LLaMA-Factory/examples/auto_generate_quantization_yaml/task/{task_id}'
@@ -54,4 +56,5 @@ public interface ModelPathUtil {
 
     public String getIntentSyncPath(String taskId);
 
+    public String getTemplateDir(String op, String deployMode);
 }

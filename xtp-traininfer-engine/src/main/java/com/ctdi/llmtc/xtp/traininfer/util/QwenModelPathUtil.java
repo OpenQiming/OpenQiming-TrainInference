@@ -65,6 +65,10 @@ public class QwenModelPathUtil implements ModelPathUtil {
         return getBaseDir() + config.getModelInputDir() + "/examples/auto_generate_inference_yaml/task/" + taskId;
     }
 
+    public String getInferenceEvalDirPath(String taskId) {
+        return getBaseDir() + config.getModelInputDir() + "/examples/auto_generate_inference_eval_yaml/task/" + taskId;
+    }
+
     //    eval_dir_path =  lambda task_id:f'{base_dir}/cyc_qwen2_workspace/qwen2_folder_modified/codes/LLaMA-Factory/examples/auto_generate_eval_yaml/task/{task_id}'
     public String getEvalDirPath(String taskId) {
         return getBaseDir() + config.getModelInputDir() + "/examples/auto_generate_eval_yaml/task/" + taskId;
@@ -95,7 +99,6 @@ public class QwenModelPathUtil implements ModelPathUtil {
         return getBaseDir() + config.getModelInputDir() + "/data/" + fn + ".json";
     }
 
-
     /**
      * 模型输出路径：包括模型文件和各种日志
      */
@@ -122,6 +125,10 @@ public class QwenModelPathUtil implements ModelPathUtil {
     // intent_sync_path = lambda task_id:f'/data/nfs/lora_intent/{task_id}'
     public String getIntentSyncPath(String taskId) {
         return config.getIntentSyncDir() + "/" + taskId;
+    }
+
+    public String getTemplateDir(String op, String deployMode) {
+        return config.getTemplateDir() + "/" + deployMode + "/auto_generate_" + op + "_yaml/";
     }
 
 }

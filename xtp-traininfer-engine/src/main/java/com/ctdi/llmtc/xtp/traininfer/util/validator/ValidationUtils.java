@@ -2,14 +2,14 @@ package com.ctdi.llmtc.xtp.traininfer.util.validator;
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
 import java.util.Set;
 
 /**
- * @author ctdi
+ * @author yangla
  * @since 2025/6/14
  */
 public class ValidationUtils {

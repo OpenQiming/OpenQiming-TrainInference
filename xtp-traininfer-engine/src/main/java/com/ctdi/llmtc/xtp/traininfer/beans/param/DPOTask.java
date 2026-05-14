@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * @author ctdi
+ * @author yangla
  * @since 2025/6/11
  */
 @Data
